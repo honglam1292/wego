@@ -4,11 +4,17 @@ import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons/faMagnifyin
 
 import { Container } from "./styled";
 
-const SearchBar = (): JSX.Element => {
+interface ISearchBar {
+  handleSearch: (search: string) => void;
+}
+const SearchBar = ({ handleSearch }: ISearchBar): JSX.Element => {
   return (
     <Container>
       <FontAwesomeIcon icon={faMagnifyingGlass} />
-      <input placeholder="Enter restaurant name"/>
+      <input
+        placeholder="Enter restaurant name"
+        onChange={(e) => handleSearch(e.target.value)}
+      />
     </Container>
   );
 };

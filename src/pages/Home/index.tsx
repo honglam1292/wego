@@ -18,20 +18,24 @@ const Home = (): JSX.Element => {
   const [foods] = useGet(GET_FOODS_URL);
   const [selectedCategoryID, setSelectedCategoryID] = useState("all");
   const [totalCard, setTotalCard] = useState(INCREMENTAL_CARD);
+  const [searchText, setSearchText] = useState("");
 
+  if (!categories || !foods) return <Loading />;
+  const listDisplayFood = foods.filter(
+    (food: IFood) =>
+      food.name.toLowerCase().includes(searchText.toLowerCase()) &&
+      (selectedCategoryID === "all" || food.categoryId === selectedCategoryID)
+  );
   const handleChangeCategory = (id: string) => {
     setTotalCard(INCREMENTAL_CARD);
     setSelectedCategoryID(id);
   };
-
-  if (!categories || !foods) return <Loading />;
-  const listFoodByCategory = foods.filter(
-    (food: IFood) =>
-      selectedCategoryID === "all" || food.categoryId === selectedCategoryID
-  );
+  const handleSearch = (text: string) => {
+    setSearchText(text);
+  };
   return (
     <Container>
-      <SearchBar />
+      <SearchBar handleSearch={handleSearch} />
       <CategoryMenu
         categories={[
           {
@@ -44,13 +48,13 @@ const Home = (): JSX.Element => {
         setSelectedCategoryID={handleChangeCategory}
       />
       <div>
-        {listFoodByCategory.slice(0, totalCard).map((food: IFood) => (
+        {listDisplayFood.slice(0, totalCard).map((food: IFood) => (
           <ResponsiveContent key={food.id}>
             <FoodCard food={food} />
           </ResponsiveContent>
         ))}
       </div>
-      {totalCard < listFoodByCategory.length && (
+      {totalCard < listDisplayFood.length && (
         <ShowMore onClick={() => setTotalCard(totalCard + INCREMENTAL_CARD)}>
           Show More
         </ShowMore>

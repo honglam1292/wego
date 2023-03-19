@@ -18,5 +18,6 @@ export const Container = styled.div`
     :focus-visible {
     outline: none;
     }
+    width: calc(100% - 40px);
   }
 `
