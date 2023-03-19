@@ -13,7 +13,6 @@ import {
 } from "../../utils/constants";
 
 const Home = (): JSX.Element => {
-  console.log("---------------------", useGet(GET_CATEGORIES_URL));
   const [categories] = useGet(GET_CATEGORIES_URL);
   const [foods] = useGet(GET_FOODS_URL);
   const [selectedCategoryID, setSelectedCategoryID] = useState("all");
